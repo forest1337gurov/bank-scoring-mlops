@@ -1,0 +1,81 @@
+
+# Python
+
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+
+# Virtual Environment
+
+.venv/
+venv/
+env/
+
+
+# IDE
+
+.vscode/
+.idea/
+
+
+# Environment variables
+
+.env
+.env.*
+
+
+# Logs
+
+*.log
+
+
+# Python cache
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+
+# Jupyter
+
+.ipynb_checkpoints/
+
+
+# Coverage
+
+.coverage
+htmlcov/
+
+
+# Build
+
+build/
+dist/
+*.egg-info/
+
+
+# ML models & artifacts
+
+app/models/*.pkl
+ml/artifacts/*
+!ml/artifacts/.gitkeep
+
+
+# Airflow
+
+airflow/logs/
+airflow/plugins/__pycache__/
+
+
+# Database
+
+*.db
+
+
+# OS
+
+Thumbs.db
+.DS_Store
