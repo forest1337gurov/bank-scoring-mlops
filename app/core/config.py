@@ -8,6 +8,14 @@ class Settings(BaseSettings):
     API_HOST: str = "0.0.0.0"
     API_PORT: int = 8000
 
+    CLICKHOUSE_HOST: str
+    CLICKHOUSE_PORT: int = 8123
+
+    CLICKHOUSE_USER: str
+    CLICKHOUSE_PASSWORD: str
+
+    CLICKHOUSE_DATABASE: str
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

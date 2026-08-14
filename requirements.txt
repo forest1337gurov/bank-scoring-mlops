@@ -20,7 +20,7 @@ joblib==1.5.2
 # Database
 sqlalchemy==2.0.43
 psycopg2-binary==2.9.10
-
+clickhouse-connect==0.8.18
 # UI
 gradio==5.44.1
 
