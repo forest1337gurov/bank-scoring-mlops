@@ -1,11 +1,13 @@
-import joblib
 from pathlib import Path
 
+import joblib
+import mlflow
 from catboost import CatBoostClassifier
 from sklearn.metrics import roc_auc_score, roc_curve
 from sklearn.model_selection import train_test_split
 
 from ml.dataset_builder import DatasetBuilder
+from ml.mlflow_setup import setup_mlflow
 
 
 class CatBoostTrainer:
@@ -37,7 +39,7 @@ class CatBoostTrainer:
 
         model = CatBoostClassifier(
             iterations=1000,
-            learning_rate=0.025,
+            learning_rate=0.03,
             depth=6,
             loss_function="Logloss",
             eval_metric="AUC",
@@ -76,6 +78,27 @@ class CatBoostTrainer:
             bundle_path,
         )
 
+        setup_mlflow()
+        with mlflow.start_run(run_name="CatBoost"):
+            mlflow.log_params(
+                {
+                    "model": "catboost",
+                    "iterations": 1000,
+                    "learning_rate": 0.03,
+                    "depth": 6,
+                    "random_seed": 42,
+                }
+            )
+            mlflow.log_metrics(
+                {
+                    "auc": auc,
+                    "gini": gini,
+                    "ks": ks,
+                }
+            )
+            mlflow.log_artifact(str(model_path))
+            mlflow.log_artifact(str(bundle_path))
+
         print(f"Model saved: {model_path}")
         print(f"Bundle saved: {bundle_path}")
 
@@ -85,4 +108,4 @@ class CatBoostTrainer:
             "gini": gini,
             "ks": ks,
             "model_path": str(model_path),
-                }
+        }

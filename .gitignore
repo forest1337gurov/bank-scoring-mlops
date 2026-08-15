@@ -63,6 +63,9 @@ app/models/*.pkl
 ml/artifacts/*
 !ml/artifacts/.gitkeep
 
+mlflow.db
+mlruns/
+mlartifacts/
 
 # Airflow
 

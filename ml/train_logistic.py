@@ -1,4 +1,5 @@
 import joblib
+import mlflow
 
 from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LogisticRegression
@@ -8,6 +9,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from ml.dataset_builder import DatasetBuilder
+from ml.mlflow_setup import setup_mlflow
 
 
 class LogisticTrainer:
@@ -81,10 +83,46 @@ class LogisticTrainer:
         joblib.dump(model, "ml/artifacts/logistic.pkl")
         print("Model saved.")
 
+        model.fit(X_train, y_train)
+
+        proba = model.predict_proba(X_test)[:, 1]
+
+        auc = roc_auc_score(y_test, proba)
+        gini = 2 * auc - 1
+        ks = self._calc_ks(y_test, proba)
+
+        print("=" * 50)
+        print(f"AUC  = {auc:.4f}")
+        print(f"Gini = {gini:.4f}")
+        print(f"KS   = {ks:.4f}")
+
+        joblib.dump(model, "ml/artifacts/logistic.pkl")
+
+        setup_mlflow()
+        with mlflow.start_run(run_name="LogisticRegression"):
+            mlflow.log_params(
+                {
+                    "model": "logistic_regression",
+                    "max_iter": 3000,
+                    "random_state": 42,
+                }
+            )
+            mlflow.log_metrics(
+                {
+                    "auc": auc,
+                    "gini": gini,
+                    "ks": ks,
+                }
+            )
+            mlflow.log_artifact("ml/artifacts/logistic.pkl")
+
+        print("Model saved.")
+
         return {
             "model_name": "LogisticRegression",
             "auc": auc,
             "gini": gini,
             "ks": ks,
             "model_path": "ml/artifacts/logistic.pkl",
-                }
+        }
+        

@@ -1,2 +1,9 @@
 apache-airflow
 mlflow
+pandas
+numpy
+scikit-learn
+catboost
+clickhouse-connect
+joblib
+openpyxl
