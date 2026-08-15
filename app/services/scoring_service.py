@@ -7,6 +7,9 @@ class ScoringService:
     def __init__(self) -> None:
         self.predictor = CatBoostPredictor()
 
+    def reload_model(self) -> None:
+        self.predictor.reload()
+
     def score(self, application_id: int) -> dict:
         clients = load_client_features()
         equifax = load_equifax_features()

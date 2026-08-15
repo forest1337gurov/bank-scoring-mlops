@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from app.routers.reload import router as reload_router
 from app.core.config import settings
 from app.routers.health import router as health_router
 from app.routers.predict import router as predict_router
@@ -11,6 +12,7 @@ app = FastAPI(
 
 app.include_router(health_router)
 app.include_router(predict_router)
+app.include_router(reload_router)
 
 
 @app.get("/")

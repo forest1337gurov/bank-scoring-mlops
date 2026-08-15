@@ -1,0 +1,11 @@
+.venv
+__pycache__
+*.pyc
+.git
+.gitignore
+catboost_info
+data/*.csv
+data/*.xlsx
+ml/artifacts/*.cbm
+ml/artifacts/*.pkl
+tree.txt
