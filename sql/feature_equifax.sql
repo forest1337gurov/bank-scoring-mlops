@@ -39,5 +39,6 @@ LEFT JOIN  (
     WHERE  cred_active in (1,10,11,12,13,14,15,16,17,18,19)
     GROUP BY ApplicationId
 ) mo on mo.ApplicationId = ec.ApplicationId
-WHERE ApplicationDate > '2025-06-01' and ApplicationDate <'2025-08-01'  
+WHERE ApplicationDate >= '{start_date}'
+  AND ApplicationDate < '{end_date}'  
 GROUP BY ec.ApplicationId

@@ -16,6 +16,9 @@ class Settings(BaseSettings):
 
     CLICKHOUSE_DATABASE: str
 
+    TRAIN_START_DATE: str = "2025-06-01"
+    TRAIN_END_DATE: str = "2025-08-01"
+    
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

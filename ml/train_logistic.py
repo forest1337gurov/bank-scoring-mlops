@@ -19,9 +19,10 @@ class LogisticTrainer:
         fpr, tpr, _ = roc_curve(y_true, proba)
         return float(max(tpr - fpr))
 
-    def train(self):
+    def train(self, dataset=None):
+        if dataset is None:
+            dataset = DatasetBuilder().build()
 
-        dataset = DatasetBuilder().build()
 
         X = dataset.drop(columns=["Target"])
         y = dataset["Target"]

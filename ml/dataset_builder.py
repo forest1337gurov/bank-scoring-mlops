@@ -7,11 +7,7 @@ from ml.preprocess import preprocess_dataset
 
 class DatasetBuilder:
 
-    def build(self, debug: bool = False):
-
-        equifax = load_equifax_features()
-        clients = load_client_features()
-
+    def build_from_dataframes(self, clients, equifax, debug: bool = False):
         dataset = clients.merge(
             equifax,
             how="inner",
@@ -27,3 +23,23 @@ class DatasetBuilder:
         dataset = preprocess_dataset(dataset)
 
         return dataset
+
+    def build_features_only_from_dataframes(self, clients, equifax, debug: bool = False):
+        dataset = clients.merge(
+            equifax,
+            how="inner",
+            left_on="ApplicationId",
+            right_on="ec.ApplicationId"
+        )
+
+        if debug:
+            print("Merged ApplicationId sample:")
+            print(dataset["ApplicationId"].head(20).tolist())
+
+        dataset = preprocess_dataset(dataset)
+        return dataset
+
+    def build(self, debug: bool = False):
+        equifax = load_equifax_features()
+        clients = load_client_features()
+        return self.build_from_dataframes(clients, equifax, debug=debug)

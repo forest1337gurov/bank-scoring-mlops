@@ -24,4 +24,6 @@ SELECT
         when IsMobile = 1 then 'Смартфон' end as gadget
 FROM risk_ch_db.client_data_495credit cdc 
 LEFT JOIN risk_ch_db.dpd_495credit dpd on cdc.ApplicationId = dpd.ApplicationId
-where cdc.ApplicationStatus  in ('LoanIssued', 'LoanReturned') and ApplicationDate > '2025-06-01' and ApplicationDate <'2025-08-01'
+ where cdc.ApplicationStatus in ('LoanIssued', 'LoanReturned')
+  and ApplicationDate >= '{start_date}'
+  and ApplicationDate < '{end_date}'

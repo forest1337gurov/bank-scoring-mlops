@@ -7,3 +7,4 @@ catboost
 clickhouse-connect
 joblib
 openpyxl
+requests==2.32.3
