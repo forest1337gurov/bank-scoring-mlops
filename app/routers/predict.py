@@ -1,18 +1,14 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
-from app.schemas.credit_application import CreditApplication
-from app.schemas.prediction import PredictionResponse
-from app.services.prediction_service import prediction_service
+from app.schemas.prediction import PredictRequest, PredictResponse
+from app.services.scoring_service import scoring_service
 
-router = APIRouter(
-    prefix="/predict",
-    tags=["Prediction"],
-)
+router = APIRouter(prefix="/predict", tags=["Prediction"])
 
 
-@router.post(
-    "",
-    response_model=PredictionResponse,
-)
-def predict(application: CreditApplication):
-    return prediction_service.predict(application)
+@router.post("", response_model=PredictResponse)
+def predict(payload: PredictRequest):
+    try:
+        return scoring_service.score(payload.application_id)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))

@@ -1,0 +1,3 @@
+model_name,auc,gini,ks,model_path
+LogisticRegression,0.7498647142125403,0.4997294284250806,0.36983142004881137,ml/artifacts/logistic.pkl
+CatBoost,0.7681902136249963,0.5363804272499926,0.3988639308204526,ml\artifacts\catboost.cbm

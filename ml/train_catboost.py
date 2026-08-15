@@ -1,3 +1,4 @@
+import joblib
 from pathlib import Path
 
 from catboost import CatBoostClassifier
@@ -64,6 +65,24 @@ class CatBoostTrainer:
 
         model_path = self.artifacts_dir / "catboost.cbm"
         model.save_model(str(model_path))
-        print(f"Model saved: {model_path}")
 
-        return model
+        bundle_path = self.artifacts_dir / "catboost_bundle.pkl"
+        joblib.dump(
+            {
+                "model": model,
+                "feature_names": X.columns.tolist(),
+                "categorical_features": categorical,
+            },
+            bundle_path,
+        )
+
+        print(f"Model saved: {model_path}")
+        print(f"Bundle saved: {bundle_path}")
+
+        return {
+            "model_name": "CatBoost",
+            "auc": auc,
+            "gini": gini,
+            "ks": ks,
+            "model_path": str(model_path),
+                }

@@ -1,6 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
-class PredictionResponse(BaseModel):
+class PredictRequest(BaseModel):
+    application_id: int = Field(..., ge=1)
+
+
+class PredictResponse(BaseModel):
+    application_id: int
     default_probability: float
     risk_level: str

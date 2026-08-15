@@ -7,13 +7,11 @@ from ml.preprocess import preprocess_dataset
 
 class DatasetBuilder:
 
-    def build(self):
+    def build(self, debug: bool = False):
 
-        # Загружаем данные
         equifax = load_equifax_features()
         clients = load_client_features()
 
-        # Объединяем
         dataset = clients.merge(
             equifax,
             how="inner",
@@ -21,10 +19,11 @@ class DatasetBuilder:
             right_on="ec.ApplicationId"
         )
 
-        # Создаем таргет
-        dataset = create_target(dataset)
+        if debug:
+            print("Merged ApplicationId sample:")
+            print(dataset["ApplicationId"].head(20).tolist())
 
-        # Предобработка
+        dataset = create_target(dataset)
         dataset = preprocess_dataset(dataset)
 
         return dataset

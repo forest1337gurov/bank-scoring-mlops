@@ -81,4 +81,10 @@ class LogisticTrainer:
         joblib.dump(model, "ml/artifacts/logistic.pkl")
         print("Model saved.")
 
-        return model
+        return {
+            "model_name": "LogisticRegression",
+            "auc": auc,
+            "gini": gini,
+            "ks": ks,
+            "model_path": "ml/artifacts/logistic.pkl",
+                }
