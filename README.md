@@ -1,50 +1,29 @@
 # Bank Scoring MLOps
 
-Production-ready MLOps project for credit scoring.
+Bank credit scoring system with ClickHouse, FastAPI, CatBoost, Docker and reproducible ML pipeline.
 
-## Project Goal
+## What it does
 
-This project demonstrates the complete machine learning lifecycle for a bank credit scoring system:
+- pulls data from ClickHouse
+- builds a training dataset from SQL extracts
+- trains a baseline Logistic Regression model
+- trains a CatBoost model
+- compares models by AUC, Gini and KS
+- serves scoring via FastAPI
+- supports model reload without restart
+- runs in Docker
 
-- Data storage in PostgreSQL
-- Model training pipeline
-- MLflow experiment tracking
-- Airflow orchestration
-- FastAPI inference service
-- Gradio demo interface
-- Automatic model promotion
-- Dynamic model reload
-- Monitoring and data drift detection
-- Docker deployment
-- CI/CD with GitHub Actions
+## Project structure
 
----
+- `app/` — FastAPI app
+- `config/` — ClickHouse connection settings
+- `ml/` — data loading, preprocessing, training, inference
+- `scripts/` — runnable entry points
+- `sql/` — SQL feature extracts
+- `tests/` — smoke tests
 
-## Tech Stack
+## Main commands
 
-- Python 3.13
-- FastAPI
-- Gradio
-- PostgreSQL
-- SQLAlchemy
-- LightGBM
-- MLflow
-- Apache Airflow
-- Docker & Docker Compose
-- GitHub Actions
-- Pytest
-
----
-
-## Project Structure
-
-```text
-app/            FastAPI application
-ml/             Training pipeline
-airflow/        DAGs
-database/       SQL initialization
-monitoring/     Drift and monitoring
-tests/          Unit tests
-docker/         Infrastructure
-```
-
+Run the baseline model:
+```powershell
+python -m scripts.run_train
