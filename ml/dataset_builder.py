@@ -9,10 +9,11 @@ class DatasetBuilder:
 
     def build(self):
 
+        # Загружаем данные
         equifax = load_equifax_features()
-
         clients = load_client_features()
 
+        # Объединяем
         dataset = clients.merge(
             equifax,
             how="inner",
@@ -20,8 +21,10 @@ class DatasetBuilder:
             right_on="ec.ApplicationId"
         )
 
+        # Создаем таргет
         dataset = create_target(dataset)
 
+        # Предобработка
         dataset = preprocess_dataset(dataset)
 
         return dataset

@@ -3,34 +3,35 @@ import pandas as pd
 
 
 def create_target(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Формирует целевую переменную Target.
+    """
 
-    dataset = df.copy()
+    df = df.copy()
 
-    dataset["Target"] = np.where(
-        dataset["MaxOverdueDays90"] >= 25,
+    df["Target"] = np.where(
+        df["MaxOverdueDays90"] >= 25,
         1,
         0,
     )
 
-    dataset = dataset.drop(
-        columns=["MaxOverdueDays90"]
-    )
+    df = df.drop(columns=["MaxOverdueDays90"])
 
-    return dataset
+    return df
 
 
 def preprocess_dataset(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
 
-    dataset = df.copy()
-
-    dataset = dataset.drop(
-        columns=[
-            "ApplicationId",
-            "ec.ApplicationId"
-        ],
-        errors="ignore"
+    df = df.drop(
+        columns=["ApplicationId", "ec.ApplicationId", "BirthDate"],
+        errors="ignore",
     )
 
-    dataset = dataset.fillna(0)
+    cat_cols = df.select_dtypes(include=["object", "string", "category"]).columns
+    num_cols = df.select_dtypes(include=["number"]).columns
 
-    return dataset
+    df[cat_cols] = df[cat_cols].fillna("Unknown")
+    df[num_cols] = df[num_cols].fillna(0)
+
+    return df
